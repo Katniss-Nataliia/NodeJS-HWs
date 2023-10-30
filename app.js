@@ -1,8 +1,10 @@
 const express = require('express')
 const logger = require('morgan')
-const cors = require('cors')
+const cors = require('cors');
+const mongoose = require('mongoose');
+const contactsRouter = require('./routes/api/contacts');
 
-const contactsRouter = require('./routes/api/contacts')
+require('dotenv').config();
 
 const app = express()
 
@@ -15,11 +17,32 @@ app.use(express.json())
 app.use('/api/contacts', contactsRouter)
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' })
+  res.status(404).json({ 
+    status:'error',
+    code:404,
+    message: 'Not found' 
+  })
 })
 
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message })
+  res.status(500).json({ 
+    status:'error',
+    code:404,
+    data: 'Not found', 
+    message: err.message 
+  })
 })
+
+const PORT = process.env.PORT;
+const DB_HOST = process.env.DB_HOST;
+
+const connection = mongoose.connect(DB_HOST)
+connection
+.then(
+  app.listen(PORT, function(){
+    console.log('Database connection successful')
+  })
+)
+.catch(err => console.log(`server not responding:${err.message}`))
 
 module.exports = app
