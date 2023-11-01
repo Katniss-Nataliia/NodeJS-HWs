@@ -33,16 +33,11 @@ app.use((err, req, res, next) => {
   })
 })
 
-const PORT = process.env.PORT;
 const DB_HOST = process.env.DB_HOST;
 
 const connection = mongoose.connect(DB_HOST)
 connection
-.then(
-  app.listen(PORT, function(){
-    console.log('Database connection successful')
-  })
-)
+.then(console.log('Database connection successful'))
 .catch(err => console.log(`server not responding:${err.message}`))
 
-module.exports = app
+module.exports = app;
