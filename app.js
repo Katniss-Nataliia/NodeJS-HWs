@@ -2,12 +2,13 @@ const express = require('express')
 const logger = require('morgan')
 const cors = require('cors');
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 const contactsRouter = require('./routes/api/contacts');
 
 require('dotenv').config();
 
 const app = express()
-
+require('./config/config-passport')
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
 app.use(logger(formatsLogger))
@@ -20,7 +21,7 @@ app.use((req, res) => {
   res.status(404).json({ 
     status:'error',
     code:404,
-    message: 'Not found' 
+    message: 'Not found.' 
   })
 })
 
