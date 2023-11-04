@@ -66,7 +66,8 @@ router.post('/users/login', async (req, res, next)=>{
         })
     }
     const payload = {
-        id: user.id
+        id: user.id,
+        email: user.email
     }
 
     const token = jwt.sign(payload, secret, {expiresIn:'1h'})
@@ -95,6 +96,21 @@ router.get('/list', auth, async (req,res,next) => {
         }
     })
 
+})
+router.delete('/users/logout', async (req, res, next)=>{
+    const {_id} = req.user;
+    const user = await User.findOne({_id});
+    if (!user){
+        return res.status(401).json({
+            status:'error',
+            code:401,
+            message:'not authorized'
+        })
+    }
+    res.json({
+        status:success,
+        code:204
+    })
 })
 
 module.exports = router;
