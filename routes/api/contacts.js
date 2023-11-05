@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// const modelContact = require('../../models/contacts');
 const jwt = require ('jsonwebtoken');
 const passport = require('passport');
 const User  = require('../../service/schemas/user');
